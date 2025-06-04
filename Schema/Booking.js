@@ -14,12 +14,14 @@ const bookingSchema = new mongoose.Schema({
   seatsBooked: {
     type: Number,
     default: 1,
-    min: 1
   },
+  otp: { type: String }, // OTP for booking confirmation
   bookedAt: {
     type: Date,
     default: Date.now
   }
 }, { timestamps: true });
+
+
 
 module.exports = mongoose.model("Booking", bookingSchema);
