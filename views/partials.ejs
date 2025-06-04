@@ -1,0 +1,22 @@
+<% const successMessages = locals.success || []; %>
+<% const errorMessages = locals.error || []; %>
+
+<% if (successMessages.length > 0) { %>
+  <div class="max-w-2xl mx-auto my-4">
+    <% successMessages.forEach(msg => { %>
+      <div class="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded mb-2">
+        <%= msg %>
+      </div>
+    <% }) %>
+  </div>
+<% } %>
+
+<% if (errorMessages.length > 0) { %>
+  <div class="max-w-2xl mx-auto my-4">
+    <% errorMessages.forEach(err => { %>
+      <div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded mb-2">
+        <%= err %>
+      </div>
+    <% }) %>
+  </div>
+<% } %>
