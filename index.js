@@ -16,7 +16,7 @@ const User = require("./Schema/UserSchema");
 const Post = require("./Schema/PostSchema");
 const Booking = require("./Schema/Booking");
 
-const validateBody = require("./Middleware/validate");
+const validateBody = require("./middleware/validate");
 const { registerSchema } = require("./JOI/user");
 const { postSchema } = require("./JOI/post");
 const { bookingSchema } = require("./JOI/booking");
