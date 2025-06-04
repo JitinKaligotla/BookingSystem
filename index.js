@@ -100,18 +100,24 @@ app.get(
 );
 
 app.get("/register", (req, res) => {
-  res.render("register.ejs");
+  console.log("Flash errors available on render:", res.locals.error);
+  res.render("register");
 });
+
 
 app.post(
   "/register",
   validateBody(registerSchema, "/register"),
   catchAsync(async (req, res, next) => {
     const { email, username, role } = req.body;
+    const existingUser = await User.findOne({ email });
+      if (existingUser) {
+        req.flash("error", "Email is already registered Login avvu ra .");
+      return res.redirect("/register");
+      }
     const user = new User({ email, username, role });
     try {
       const registeredUser = await User.register(user, req.body.password);
-
       req.login(registeredUser, function (err) {
         if (err) return next(err);
         req.flash("success", "Welcome to Booking System!");
@@ -168,10 +174,13 @@ app.get(
   isLoggedIn,
   catchAsync(async (req, res) => {
     if (req.user.role === "driver") {
-      const posts = await Post.find({}).populate("driver");
+      const posts = await Post.find({ driver: req.user._id }).populate("driver");
+      if (posts.length === 0) {
+        req.flash("error", "You have not posted any rides yet");
+        return res.redirect("/postARide");
+      }
       return res.render("allPosts.ejs", { posts });
     }
-    res.send("You are not authorized to view this page");
   })
 );
 
@@ -245,22 +254,23 @@ app.get(
   })
 );
 
-app.post(
-  "/book/:id",
-  isLoggedIn,
-  (req, res, next) => {
-    validateBody(bookingSchema, "/bookARide")(req, res, next);
-  },
-  catchAsync(async (req, res) => {
+
+app.get("/book/:id", isLoggedIn, async (req, res, next) => {
+  try {
     const postId = req.params.id;
     const post = await Post.findById(postId);
+    
     if (!post) {
       req.flash("error", "Ride not found");
       return res.redirect("/bookARide");
     }
+
     res.render("confirmBooking.ejs", { post });
-  })
-);
+  } catch (err) {
+    next(err); 
+  }
+});
+
 
 app.post(
   "/confirm/:id",
