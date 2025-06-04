@@ -8,12 +8,19 @@
 </head>
 
 <body class="bg-gray-100 min-h-screen p-6">
-  <% if (error && error.length > 0) { %>
+ <% if (error && error.length > 0) { %>
     <div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded mb-4">
     <% error.forEach(msg => { %>
       <p><%= msg %></p>
     <% }) %>
     </div>
+  <% } %>
+  <% if(success && success.length > 0) { %>
+    <div class="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded mb-4">
+      <% success.forEach(msg => { %>
+        <p><%= msg %></p>
+      <% }) %>
+    </div>  
   <% } %>
 
   <div class="max-w-4xl mx-auto">
@@ -33,6 +40,7 @@
               <p><span class="font-medium">Fare:</span> ₹<%= booking.post.fare %></p>
               <p><span class="font-medium">Seats Booked:</span> <%= booking.seatsBooked %></p>
               <p><span class="font-medium">Departure:</span> <%= new Date(booking.post.departureTime).toLocaleString() %></p>
+              <p><strong class="font-medium">OTP:</strong> <%= booking.otp %></p>
             </div>
           </li>
         <% }) %>
