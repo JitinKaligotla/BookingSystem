@@ -7,12 +7,18 @@
   <script src="https://cdn.tailwindcss.com"></script>
 </head>
 <body class="bg-gray-100 flex items-center justify-center min-h-screen">
+  <% if (error && error.length > 0) { %>
+    <div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded mb-4">
+    <% error.forEach(msg => { %>
+      <p><%= msg %></p>
+    <% }) %>
+    </div>
+  <% } %>
 
   <div class="bg-white p-8 rounded-2xl shadow-lg w-full max-w-xl">
     <h2 class="text-3xl font-bold mb-6 text-center text-indigo-600">Upload Your Ride</h2>
 
     <form action="/postARide" method="POST" class="space-y-4">
-        <%- include('partials/flash') %>
       
       <div>
         <label for="desti" class="block text-sm font-medium">Destination</label>
@@ -66,6 +72,12 @@
       <% } %>
 
     </form>
+    <form action="/home" method="GET" class="mt-4">
+        <button type="submit"
+                class="w-full bg-gray-300 text-gray-800 py-2 rounded-lg hover:bg-gray-400 transition">
+          Back to Home
+        </button>
+      </form>
   </div>
 
 </body>
