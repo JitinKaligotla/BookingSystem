@@ -11,7 +11,7 @@ const postSchema = Joi.object({
   vehicleType: Joi.string().required(),
   departureTime: Joi.date().greater("now").required(),
   destination: Joi.string().required(),
-  availableSeats: Joi.number().integer().min(1).max(6).required(),
+  availableSeats: Joi.number().integer().min(1).max(10).required(),
   fare: Joi.number().positive().required(),
 });
 
