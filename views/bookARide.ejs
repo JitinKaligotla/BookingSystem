@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Book A Ride</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-50 min-h-screen p-6">
+  <%- include('partials/flash') %>
+
+
+  <div class="max-w-4xl mx-auto">
+    <h1 class="text-3xl font-bold text-center text-indigo-600 mb-8">Available Rides</h1>
+
+    <ul class="space-y-6">
+      <% posts.forEach(post => { %>
+        <li class="bg-white p-6 rounded-xl shadow-md border border-gray-200">
+          <h2 class="text-xl font-semibold text-gray-800 mb-2"><%= post.destination %></h2>
+          <p><span class="font-medium text-gray-600">Driver Phone:</span> <%= post.driverPhone %></p>
+          <p><span class="font-medium text-gray-600">Vehicle Number:</span> <%= post.vehicleNumber %></p>
+          <p><span class="font-medium text-gray-600">Vehicle Type:</span> <%= post.vehicleType %></p>
+          <p><span class="font-medium text-gray-600">Available Seats:</span> <%= post.availableSeats %></p>
+          <p><span class="font-medium text-gray-600">Fare:</span> $<%= post.fare %></p>
+          <p><span class="font-medium text-gray-600">Posted by:</span> <%= post.driverName %></p>
+          <p><span class="font-medium text-gray-600">Departure:</span> <%= new Date(post.departureTime).toLocaleString() %></p>
+
+          <form action="/book/<%= post._id %>" method="POST" class="mt-4">
+            <button type="submit" class="bg-indigo-600 text-white px-4 py-2 rounded-md hover:bg-indigo-700 transition">
+              Book Now
+            </button>
+          </form>
+        </li>
+      <% }) %>
+    </ul>
+
+    <div class="mt-10 text-center">
+      <a href="/postARide" class="text-blue-600 underline hover:text-blue-800">
+        Upload a new ride
+      </a>
+    </div>
+  </div>
+
+</body>
+</html>

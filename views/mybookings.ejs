@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Your Bookings</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+
+<body class="bg-gray-100 min-h-screen p-6">
+
+  <!-- ✅ Flash messages -->
+  <%- include('partials/flash') %>
+
+  <div class="max-w-4xl mx-auto">
+    <h1 class="text-3xl font-bold text-center text-indigo-600 mb-8">Your Bookings</h1>
+
+    <% if (bookings.length === 0) { %>
+      <p class="text-center text-gray-600">You have no bookings yet.</p>
+    <% } else { %>
+      <ul class="space-y-6">
+        <% bookings.forEach(booking => { %>
+          <li class="bg-white p-6 rounded-xl shadow-md hover:shadow-lg transition">
+            <h2 class="text-xl font-semibold text-gray-800 mb-2">Ride to <%= booking.post.destination %></h2>
+            <div class="text-gray-700 space-y-1">
+              <p><span class="font-medium">Driver:</span> <%= booking.post.driverName %></p>
+              <p><span class="font-medium">Phone:</span> <%= booking.post.driverPhone %></p>
+              <p><span class="font-medium">Vehicle:</span> <%= booking.post.vehicleType %> - <%= booking.post.vehicleNumber %></p>
+              <p><span class="font-medium">Fare:</span> ₹<%= booking.post.fare %></p>
+              <p><span class="font-medium">Seats Booked:</span> <%= booking.seatsBooked %></p>
+              <p><span class="font-medium">Departure:</span> <%= new Date(booking.post.departureTime).toLocaleString() %></p>
+            </div>
+          </li>
+        <% }) %>
+      </ul>
+    <% } %>
+
+    <div class="mt-8 text-center">
+      <a href="/bookARide" class="text-blue-600 hover:underline">← Back to Book Rides</a>
+    </div>
+  </div>
+
+</body>
+</html>

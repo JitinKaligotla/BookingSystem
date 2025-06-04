@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Post a Ride</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-100 flex items-center justify-center min-h-screen">
+
+  <div class="bg-white p-8 rounded-2xl shadow-lg w-full max-w-xl">
+    <h2 class="text-3xl font-bold mb-6 text-center text-indigo-600">Upload Your Ride</h2>
+
+    <form action="/postARide" method="POST" class="space-y-4">
+        <%- include('partials/flash') %>
+      
+      <div>
+        <label for="desti" class="block text-sm font-medium">Destination</label>
+        <input id="desti" type="text" name="destination" required placeholder="Enter your destination"
+               class="mt-1 w-full border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-indigo-500">
+      </div>
+
+      <div>
+        <label for="ph" class="block text-sm font-medium">Phone Number</label>
+        <input id="ph" type="number" name="driverPhone" required placeholder="Enter your Phone Number"
+               class="mt-1 w-full border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-indigo-500">
+      </div>
+
+      <div>
+        <label for="vec" class="block text-sm font-medium">Vehicle Number</label>
+        <input id="vec" type="text" name="vehicleNumber" required placeholder="Enter your vehicle number"
+               class="mt-1 w-full border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-indigo-500">
+      </div>
+
+      <div>
+        <label for="vect" class="block text-sm font-medium">Vehicle Type</label>
+        <input id="vect" type="text" name="vehicleType" required placeholder="Enter your vehicle type"
+               class="mt-1 w-full border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-indigo-500">
+      </div>
+
+      <div>
+        <label for="seats" class="block text-sm font-medium">Available Seats</label>
+        <input type="number" id="seats" name="availableSeats" required placeholder="Enter number of seats"
+               class="mt-1 w-full border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-indigo-500">
+      </div>
+
+      <div>
+        <label for="fare" class="block text-sm font-medium">Fare</label>
+        <input id="fare" type="number" name="fare" required placeholder="Enter fare"
+               class="mt-1 w-full border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-indigo-500">
+      </div>
+
+      <div>
+        <label for="vecti" class="block text-sm font-medium">Departure Time</label>
+        <input id="vecti" type="datetime-local" name="departureTime" required
+               class="mt-1 w-full border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-indigo-500">
+      </div>
+
+      <button type="submit"
+              class="w-full bg-indigo-600 text-white py-2 rounded-lg hover:bg-indigo-700 transition">
+        Upload the Ride
+      </button>
+
+      <% if (error) { %>
+        <p class="text-red-500 text-sm mt-2 text-center"><%= error %></p>
+      <% } %>
+
+    </form>
+  </div>
+
+</body>
+</html>

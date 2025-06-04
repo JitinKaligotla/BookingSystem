@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Edit Your Ride</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-100 min-h-screen p-6">
+  <%- include('partials/flash') %>
+
+
+  <div class="max-w-xl mx-auto bg-white p-8 rounded-xl shadow-md">
+    <h1 class="text-3xl font-bold text-indigo-600 mb-6 text-center">Edit Your Ride</h1>
+
+    <form action="/post/<%= post._id %>?_method=PATCH" method="POST" class="space-y-4">
+      <div>
+        <label for="desti" class="block font-medium text-gray-700">Destination</label>
+        <input id="desti" type="text" name="destination" required class="w-full border rounded-md p-2" placeholder="Enter destination" value="<%= post.destination %>">
+      </div>
+
+      <div>
+        <label for="ph" class="block font-medium text-gray-700">Phone Number</label>
+        <input id="ph" type="number" name="driverPhone" required class="w-full border rounded-md p-2" placeholder="Enter phone" value="<%= post.driverPhone %>">
+      </div>
+
+      <div>
+        <label for="vec" class="block font-medium text-gray-700">Vehicle Number</label>
+        <input id="vec" type="text" name="vehicleNumber" required class="w-full border rounded-md p-2" placeholder="Enter vehicle number" value="<%= post.vehicleNumber %>">
+      </div>
+
+      <div>
+        <label for="vect" class="block font-medium text-gray-700">Vehicle Type</label>
+        <input id="vect" type="text" name="vehicleType" required class="w-full border rounded-md p-2" placeholder="Enter vehicle type" value="<%= post.vehicleType %>">
+      </div>
+
+      <div>
+        <label for="seats" class="block font-medium text-gray-700">Available Seats</label>
+        <input id="seats" type="number" name="availableSeats" required class="w-full border rounded-md p-2" placeholder="Enter seats" value="<%= post.availableSeats %>">
+      </div>
+
+      <div>
+        <label for="fare" class="block font-medium text-gray-700">Fare</label>
+        <input id="fare" type="number" name="fare" required class="w-full border rounded-md p-2" placeholder="Enter fare" value="<%= post.fare %>">
+      </div>
+
+      <div>
+        <label for="vecti" class="block font-medium text-gray-700">Departure Time</label>
+        <input id="vecti" type="datetime-local" name="departureTime" required class="w-full border rounded-md p-2" value="<%= new Date(post.departureTime).toISOString().slice(0, 16) %>">
+      </div>
+
+      <div class="flex justify-between items-center mt-6">
+        <button type="submit" class="bg-blue-600 text-white px-6 py-2 rounded-md hover:bg-blue-700 transition">
+          Update Ride
+        </button>
+        <form action="/post/<%= post._id %>?_method=DELETE" method="post">
+          <button type="submit" class="bg-red-600 text-white px-6 py-2 rounded-md hover:bg-red-700 transition">
+            Delete
+          </button>
+        </form>
+      </div>
+    </form>
+
+    <% if (error) { %>
+      <p class="mt-4 text-red-600 font-medium"><%= error %></p>
+    <% } %>
+  </div>
+
+</body>
+</html>
