@@ -1,4 +1,5 @@
 const mongoose = require("mongoose");
+const User = require("./UserSchema"); // Assuming UserSchema is in the same directory
 
 const PostSchema = new mongoose.Schema({
   driver: {
@@ -34,7 +35,7 @@ const PostSchema = new mongoose.Schema({
   availableSeats: {
     type: Number,
     required: true,
-    min: 1
+    min: 0
   },
   fare: {
     type: Number,
