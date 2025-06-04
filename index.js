@@ -169,20 +169,27 @@ app.post(
   })
 );
 
+
 app.get(
   "/allPosts",
   isLoggedIn,
   catchAsync(async (req, res) => {
-    if (req.user.role === "driver") {
-      const posts = await Post.find({ driver: req.user._id }).populate("driver");
-      if (posts.length === 0) {
-        req.flash("error", "You have not posted any rides yet");
-        return res.redirect("/postARide");
-      }
-      return res.render("allPosts.ejs", { posts });
+    if (req.user.role !== "driver") {
+      req.flash("error", "Only drivers can view this page");
+      return res.redirect("/home");
     }
+    const posts = await Post.find({ driver: req.user._id }).populate("driver");
+    if (posts.length === 0) {
+      req.flash("error", "You have not posted any rides yet");
+      return res.redirect("/postARide");
+    }
+    const postIds = posts.map(post => post._id);
+    const bookings = await Booking.find({ post: { $in: postIds } }).populate("user").populate("post");
+
+    res.render("allPosts.ejs", { posts, bookings, currentUser: req.user });
   })
 );
+
 
 app.get(
   "/post/:id/edit",
@@ -242,17 +249,28 @@ app.delete(
   })
 );
 
+
 app.get(
   "/bookARide",
   isLoggedIn,
   catchAsync(async (req, res) => {
     if (req.user.role === "user") {
-      const posts = await Post.find({}).populate("driver");
-      return res.render("bookARide.ejs", { posts });
+      const allPosts = await Post.find({}).populate("driver");
+
+      const availablePosts = allPosts.filter(post => post.availableSeats > 0);
+
+      if (availablePosts.length === 0) {
+        req.flash("error", "No rides available at the moment");
+        return res.redirect("/home");
+      }
+
+      return res.render("bookARide.ejs", { posts: availablePosts });
     }
     res.send("Login as user to book a ride");
   })
 );
+
+
 
 
 app.get("/book/:id", isLoggedIn, async (req, res, next) => {
@@ -289,15 +307,19 @@ app.post(
     }
     post.availableSeats -= seats;
     await post.save();
+    const otp = Math.floor(1000 + Math.random() * 9000).toString(); // e.g., 4-digit
+
 
     const booking = new Booking({
       user: req.user._id,
       post: post._id,
       seatsBooked: seats,
+      otp: otp,
     });
     await booking.save();
 
-    req.flash("success", "Booking confirmed!");
+
+    req.flash("success", "Ride booked successfully. Your OTP is visible in My Bookings.");
     res.redirect("/mybookings");
   })
 );
@@ -306,7 +328,7 @@ app.get(
   "/mybookings",
   isLoggedIn,
   catchAsync(async (req, res) => {
-    const bookings = await Booking.find({ user: req.user._id }).populate("post");
+    const bookings = await (await Booking.find({ user: req.user._id }).populate("post"))
     if (bookings.length === 0) {
       req.flash("info", "You have no bookings");
       return res.redirect("/available");
