@@ -8,9 +8,13 @@
 </head>
 
 <body class="bg-gray-100 min-h-screen p-6">
-
-  <!-- ✅ Flash messages -->
-  <%- include('partials/flash') %>
+  <% if (error && error.length > 0) { %>
+    <div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded mb-4">
+    <% error.forEach(msg => { %>
+      <p><%= msg %></p>
+    <% }) %>
+    </div>
+  <% } %>
 
   <div class="max-w-4xl mx-auto">
     <h1 class="text-3xl font-bold text-center text-indigo-600 mb-8">Your Bookings</h1>
