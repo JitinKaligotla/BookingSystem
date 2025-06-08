@@ -31,8 +31,16 @@ app.engine("ejs", ejsMate);
 app.set("view engine", "ejs");
 app.set("views", path.join(__dirname, "views"));
 
+
+if(process.env.NODE_ENV !== "production") {
+  require("dotenv").config();
+}
+
+console.log("DB_URL from env:", process.env.url);
+
+const url = process.env.url;
 mongoose
-  .connect("mongodb://127.0.0.1:27017/Bookin", {
+  .connect(url, {
     useNewUrlParser: true,
     useUnifiedTopology: true,
   })
@@ -42,7 +50,6 @@ mongoose
   .catch((e) => {
     console.error("Database connection error:", e);
   });
-
 const sessionConfig = {
   secret: "thisshouldbeabettersecret!",
   resave: false,
