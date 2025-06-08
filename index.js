@@ -340,7 +340,7 @@ app.get(
       req.flash("success", "You have not made any bookings in the past");
       return res.redirect("/home");
     }
-    res.render("myBookings.ejs", { bookings });
+    res.render("mybookings.ejs", { bookings });
   })
 );
 
