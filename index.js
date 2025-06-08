@@ -337,8 +337,8 @@ app.get(
   catchAsync(async (req, res) => {
     const bookings = await (await Booking.find({ user: req.user._id }).populate("post"))
     if (bookings.length === 0) {
-      req.flash("info", "You have no bookings");
-      return res.redirect("/available");
+      req.flash("success", "You have not made any bookings in the past");
+      return res.redirect("/home");
     }
     res.render("myBookings.ejs", { bookings });
   })
